@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+class node{
+public:
+  int data;
+  node* next;
+
+  node(int data){
+    this->data = data;
+    next =NULL;
+  }
+};
+
+void insertAtTail(node* &tail,int data){
+  node* temp = new node(data);
+  tail->next = temp;
+  tail = temp;
+}
+void printList(node* &head){
+  node* temp = head;
+  while(temp!=NULL){
+    cout<<temp->data<<" ";
+    temp = temp->next;
+  }
+}
+int main() {
+  node* head = new node(12);
+  node* tail = head;
+  insertAtTail(tail,13);
+  insertAtTail(tail,9);
+  printList(head);
+}
