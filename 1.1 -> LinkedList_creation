@@ -7,26 +7,90 @@ public:
 
   node(int data){
     this->data = data;
-    next =NULL;
+    next = NULL;
   }
 };
+void insertAtHead(node* &head,int data){
+  node* temp = new node(data);
+  temp->next = head;
+  head = temp;
+}
 
 void insertAtTail(node* &tail,int data){
   node* temp = new node(data);
   tail->next = temp;
   tail = temp;
 }
+
 void printList(node* &head){
-  node* temp = head;
-  while(temp!=NULL){
-    cout<<temp->data<<" ";
-    temp = temp->next;
+  node* curr = head;
+  while(curr != NULL){
+    cout << curr->data << " ";
+    curr = curr->next;
   }
 }
+
+void insertAtMiddle(node* &head,node* &tail,int pos,int data){
+  //pehla position mai insert karna hua
+  if(pos == 1){
+    insertAtHead(head,data);
+    return;
+  }
+
+  node *temp = head;
+
+  int count = 1;
+
+  while(count < pos-1){
+    temp = temp->next;
+    count++;
+  }
+
+  //insert at last position
+  if(temp->next == NULL){
+    insertAtTail(tail,data);
+    return;
+  }
+
+  node* insertNewNode = new node(data);
+  insertNewNode->next = temp->next;
+  temp->next = insertNewNode;
+}
+
+void removeElements(node* head, int val) {
+        if(head == NULL){
+            return;
+        }
+
+        //val jo delete karna ki hai wo starting node ki hui tho
+        //dummy node banao usa us head ka aga ek
+
+        node* dummy = new node(-1);
+        dummy->next = head;
+
+        node* curr = dummy;
+
+        while(curr->next != NULL){
+            if(curr->next->data == val){
+                node* temp = curr->next;
+                curr->next = temp->next;
+                delete temp;
+            }
+            else{
+                curr = curr->next;
+            }
+        }
+}
 int main() {
-  node* head = new node(12);
-  node* tail = head;
+  node* node1 = new node(12);
+  node* head = node1;
+  node* tail = node1;
+  insertAtHead(head,11);
   insertAtTail(tail,13);
-  insertAtTail(tail,9);
+  insertAtTail(tail,16);
+
+  insertAtMiddle(head,tail,3,15);
+
+  removeElements(head,12);
   printList(head);
 }
