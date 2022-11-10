@@ -1,5 +1,7 @@
 #include <iostream>
+#include <unordered_map>
 using namespace std;
+
 class node{
 public:
   int data;
@@ -81,6 +83,26 @@ void removeElements(node* head, int val) {
             }
         }
 }
+
+bool detectLoop(node* head){
+  if(head == NULL){
+    return false;
+  }
+
+  unordered_map<node*,bool> visited;
+  node* curr = head;
+  
+  while(curr != NULL){
+    if(visited[curr] != true){
+      cout<<curr->data;
+      return true;
+    }
+    visited[curr] = true;
+    curr = curr->next;
+  }
+  return false;
+}
+
 int main() {
   node* node1 = new node(12);
   node* head = node1;
@@ -90,7 +112,14 @@ int main() {
   insertAtTail(tail,16);
 
   insertAtMiddle(head,tail,3,15);
-
+  
   removeElements(head,12);
-  printList(head);
+  tail->next = head->next;
+  // printList(head);
+  if(detectLoop(head)){
+    cout<<"loop is present";
+  }
+  else{
+    cout<<"loop is not present";
+  }
 }
