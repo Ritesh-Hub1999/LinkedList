@@ -1,0 +1,52 @@
+node* floydCycleDetection(node* head){
+  node* fast = head;
+  node* slow = head;
+
+  while(fast->next != NULL and fast->next->next != NULL){
+    fast = fast->next->next;
+    slow = slow->next;
+    if(fast == slow){
+      return slow;
+    }
+  }
+}
+
+node* getStartingNode(node* head){
+  node* intersection = floydCycleDetection(head);
+  node* slow = head;
+
+  while(slow != intersection){
+    slow = slow->next;
+    intersection = intersection->next;
+  }
+  return slow;
+}
+
+void removeLoop(node* head){
+  node* loopStartingNode = getStartingNode(head);
+  node* temp = loopStartingNode;
+
+  while(temp->next != loopStartingNode){
+    temp =temp->next;
+  }
+
+  temp->next = NULL;
+}
+
+int main() {
+  node* node1 = new node(12);
+  node* head = node1;
+  node* tail = node1;
+  insertAtHead(head,11);
+  insertAtTail(tail,13);
+  insertAtTail(tail,16);
+  
+  tail->next = head->next;
+  
+  node* intersect = getStartingNode(head);
+  cout << intersect->data ;
+
+  removeLoop(head);
+  
+  printList(head);
+}
